@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import src.Player;
+
 
 public class Potion50 extends TrainerCard
 {
