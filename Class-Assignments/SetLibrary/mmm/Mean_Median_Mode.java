@@ -1,4 +1,4 @@
-package mmm;
+
 //Let's off with a warmup :: Let's write a program that can find mean median and mode.
 import java.util.Arrays;
 import java.util.ArrayList;
