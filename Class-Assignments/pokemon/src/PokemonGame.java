@@ -1,7 +1,7 @@
-package src;
+
 import java.util.Scanner;
 
-import Player;
+
 
 public class PokemonGame {
     public static void main(String[] args) {
