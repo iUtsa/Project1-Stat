@@ -1,3 +1,5 @@
+import src.Player;
+
 public class Battle {
     public static void startBattle(Player player1, Player player2) {
         System.out.println("\n=== Pokémon Battle Begins! ===");

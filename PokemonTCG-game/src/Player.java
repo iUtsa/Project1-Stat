@@ -1,5 +1,7 @@
 import java.util.*;
 
+import src.Player;
+
 public class Player {
     private String name;
     private ArrayList<Card> hand, pool;

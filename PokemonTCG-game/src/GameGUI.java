@@ -2,6 +2,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import src.Player;
+
 public class GameGUI extends JFrame {
     private Player player1, player2;
     private Deck player1Deck, player2Deck;
