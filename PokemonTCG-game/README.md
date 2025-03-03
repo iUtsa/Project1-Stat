@@ -15,6 +15,8 @@ Welcome to the **Pokémon Card Game**, a turn-based card battle game built in Ja
 - Ensure you have **Java 8+** installed.
 - A Java IDE like **IntelliJ IDEA, Eclipse, or VS Code**.
 
+### DOWNLOAD LOCALLY--> UNZIP --> GO TO JAVA IDE ---> OPEN PROJECT ---> PokeomonTCG-game ---> SRC ---> Main.java--> RUN (ENJOY!)
+
 ### **🔹 Steps to Start the Game**
 1. **Clone the repository** (or download the source files):
    ```bash
