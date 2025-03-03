@@ -1,4 +1,4 @@
-import src.Player;
+
 
 public  class TrainerCard extends Card {
     public TrainerCard(String name) {
