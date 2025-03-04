@@ -24,7 +24,7 @@ public class Deck {
      */
     private void initializeDeck() {
         // Pokémon Cards
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             PokemonCard pikachu = new Pikachu();
             PokemonCard charmander = new Charmander();
             PokemonCard mewtwo = new MewTwo();
@@ -44,7 +44,6 @@ public class Deck {
             // Energy Cards (Each Type Has Unique Effects)
             cards.add(new EnergyCard("Fire Energy", "Fire", 1, 0));  // Boosts Energy by 1
             cards.add(new EnergyCard("Grass Energy", "Grass", 2, 0));  // Boosts Energy by 2
-            cards.add(new EnergyCard("Retro Energy", "Retro", 3, 0));  // Boosts Energy by 3
             cards.add(new EnergyCard("Electric Energy", "Electric", 1, 0));  // Boosts Energy by 1
             cards.add(new EnergyCard("Psychic Energy", "Psychic", 3, 0));  // Boosts Energy by 3
         }

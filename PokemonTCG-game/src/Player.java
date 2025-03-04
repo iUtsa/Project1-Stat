@@ -146,7 +146,7 @@ public class Player {
     public void initializePool() {
         pool = new ArrayList<>(); // Initialize prize pool list
 
-        for (int i = 0; i < 3; i++) { // Ensure exactly 3 prize cards are added
+        for (int i = 0; i < 6; i++) { // Ensure exactly 3 prize cards are added
             if (deck.getDeckSize() > 0) {
                 Card prizeCard = deck.drawCard(); // Draw one card from deck
                 pool.add(prizeCard);  // Store in prize pool
