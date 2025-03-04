@@ -39,6 +39,7 @@ public class Deck {
             cards.add(new TrainerCard("Potion"));
             cards.add(new TrainerCard("Professor Oak"));
             cards.add(new TrainerCard("Full Heal"));
+            cards.add(new TrainerCard("Rare Candy"));
 
             // Energy Cards (Each Type Has Unique Effects)
             cards.add(new EnergyCard("Fire Energy", "Fire", 1, 0));  // Boosts Energy by 1

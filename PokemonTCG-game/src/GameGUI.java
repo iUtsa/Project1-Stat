@@ -1,9 +1,10 @@
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.*;
+import java.util.*;
 
 
-
+//this class controls and designs the game
 public class GameGUI extends JFrame {
     private Player player1, player2;
     private Deck player1Deck, player2Deck;
@@ -577,7 +578,7 @@ public class GameGUI extends JFrame {
 
         TrainerCard selectedTrainer = null;
 
-        // ✅ Find the first Trainer card in hand
+        // ✅ Find a Trainer card in hand
         for (Card card : hand) {
             if (card instanceof TrainerCard) {
                 selectedTrainer = (TrainerCard) card;
@@ -595,11 +596,47 @@ public class GameGUI extends JFrame {
         JOptionPane.showMessageDialog(this, "Used Trainer Card: " + selectedTrainer.getName(), "Trainer Card Used", JOptionPane.INFORMATION_MESSAGE);
 
         // ✅ Apply Trainer Card Effect
-        applyTrainerEffect(selectedTrainer, currentPlayer);
+        if (selectedTrainer.getName().equals("Rare Candy")) {
+            evolvePokemon(currentPlayer);
+        } else {
+            applyTrainerEffect(selectedTrainer, currentPlayer);
+        }
 
         // ✅ Update UI
         updateHandAndBenchDisplay();
     }
+
+
+    private void evolvePokemon(Player player) {
+        PokemonCard activePokemon = player.getActive();
+
+        if (activePokemon == null) {
+            JOptionPane.showMessageDialog(this, "No Active Pokémon to evolve!", "Evolution Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        switch (activePokemon.getName()) {
+            case "Charmander":
+                player.setActivePokemon(new Charizard());
+                JOptionPane.showMessageDialog(this, "Charmander evolved into Charizard!", "Evolution Successful", JOptionPane.INFORMATION_MESSAGE);
+                break;
+
+            case "Pikachu":
+                player.setActivePokemon(new Raikou());
+                JOptionPane.showMessageDialog(this, "Pikachu evolved into Raikou!", "Evolution Successful", JOptionPane.INFORMATION_MESSAGE);
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(this, activePokemon.getName() + " cannot evolve further!", "Evolution Error", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+
+        // ✅ Update UI
+        updateHandAndBenchDisplay();
+        updateActivePokemonDisplay();
+    }
+
+
 
     private void applyTrainerEffect(TrainerCard trainer, Player currentPlayer) {
         PokemonCard activePokemon = currentPlayer.getActive();
