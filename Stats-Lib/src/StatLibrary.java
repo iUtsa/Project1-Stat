@@ -1,6 +1,5 @@
-
-//Let's off with a warmup :: Let's write a program that can find mean median and mode.
 import java.util.Arrays;
+import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +8,17 @@ public class StatLibrary {
 	// Something that's common in all stats classes that you take, is learning about
 	// Central Tendancies
 
+	    // Default constructor
+
 	public StatLibrary() {
 
 	}
 
-	private int value;
-	private int count;
+	private int value; // The value of the element
+    private int count; // The count of occurrences of the element
+
+	
+	// Constructor to initialize value and count
 
 	public StatLibrary(int num, int count) {
 		this.value = num;
@@ -26,8 +30,12 @@ public class StatLibrary {
 	// Mean? ~> It's sum of elements divided by count. Another word for it could be
 	// expected.
 
-	// This method find the mean.
-	public double findMean(int[] input) { // 2 options, using an array or an array list.
+		/**
+    	* Method to find the mean of an array of integers.
+     	* @param input The array of integers.
+    	* @return The mean of the array.
+    	*/
+		public double findMean(int[] input) { // 2 options, using an array or an array list.
 		// Find the sum
 		double sum = 0;
 		for (int c : input) {
@@ -43,6 +51,12 @@ public class StatLibrary {
 	// numbers
 	// This method searches through an array and find the middle value of a sorted
 	// array.
+
+	/**
+     * Method to find the median of an array of integers.
+     * @param arr The array of integers.
+     * @return The median of the array.
+     */
 	public double findMedian(int[] arr) {
 
 		Arrays.sort(arr);
@@ -59,13 +73,20 @@ public class StatLibrary {
 	// Mode? ~> Is the number that occurs the most, but it is unique, meaning there
 	// can only be one number be mode
 	// This method searches through an array and find the mode if it exists.
+
+	/**
+	 * Method to find the mode of an array of integers.
+	 * @param arr The array of integers.
+	 * @return The mode of the array. If there is no unique mode, returns -1.
+	 */
 	public int findMode(int[] arr) {
 		ArrayList<StatLibrary> counter = new ArrayList<>();
+		// Count the occurrences of each element
 		for (int i = 0; i < arr.length; i++) {
 			int tempHolder = arr[i];
 			boolean found = false;
-			for (StatLibrary ele : counter) {
-				if (ele.getValue() == tempHolder) {
+			for (StatLibrary ele : counter) { 
+				if (ele.getValue() == tempHolder) {// If the value is found, increase the count
 					ele.increaseCount();
 					found = true;
 					break;
@@ -78,9 +99,11 @@ public class StatLibrary {
 		}
 
 		// This little code determine whether there are multilple "mode"
+
 		int maxCount = 0;
 		int mode = 0;
 		boolean multipleMode = false;
+		// Find the element with the highest count
 		for (StatLibrary ele : counter) {
 			if (ele.getCount() > maxCount) {
 				maxCount = ele.getCount();
@@ -90,26 +113,41 @@ public class StatLibrary {
 				multipleMode = true;
 			}
 		}
-
+		// If there are multiple modes, return -1
 		if (multipleMode) {
 			return -1;
 		} else
 			return mode;
 	}
 
+	/**
+     * Getter method to retrieve the count of occurrences.
+     * @return The count of occurrences.
+     */
 	public int getCount() {
 		return count;
 	}
-
+	/**
+     * Getter method to retrieve the value.
+     * @return The value.
+     */
 	public int getValue() {
 		return value;
 	}
 
+	/**
+     * Method to increase the count of occurrences by 1.
+     */
 	public void increaseCount() {
 		count++;
 	}
 
 	// Factorial method for BigInteger
+	/**
+     * Method to calculate the factorial of a BigInteger.
+     * @param n The BigInteger to calculate the factorial for.
+     * @return The factorial of the BigInteger.
+     */
 	public BigInteger factorial(BigInteger n) {
 		if (n.compareTo(BigInteger.ZERO) < 0) {
 			throw new IllegalArgumentException("Factorial is not defined for negative value");
@@ -122,6 +160,11 @@ public class StatLibrary {
 	}
 
 	// This one is for long
+	/**
+     * Method to calculate the factorial of a long.
+     * @param n The long to calculate the factorial for.
+     * @return The factorial of the long.
+     */
 	public long factorial(long n) {
 		if (n == 0) {
 			throw new IllegalArgumentException("Factorial is ont defined for negative value");
@@ -134,6 +177,12 @@ public class StatLibrary {
 	}
 
 	// This method combine the two arrays with values from both arrays.
+	/**
+     * Method to perform the union of two sets.
+     * @param S The first set.
+     * @param A The second set.
+     * @return An ArrayList containing the union of the two sets.
+     */
 	public ArrayList unionOf(int[] S, int[] A) {
 		Arrays.sort(S);
 		Arrays.sort(A);
@@ -154,8 +203,13 @@ public class StatLibrary {
 		return result;
 	}
 
-	// This method find the common values in S and A arrays
-	public ArrayList intersectionOf(int[] S, int[] A) {
+		/**
+		 * Method to perform the intersection of two sets.
+		 * @param S The first set.
+		 * @param A The second set.
+		 * @return An ArrayList containing the intersection of the two sets.
+		 */
+		public ArrayList intersectionOf(int[] S, int[] A) {
 		ArrayList<Integer> result = new ArrayList<>();
 		Arrays.sort(S);
 		Arrays.sort(A);
@@ -170,8 +224,12 @@ public class StatLibrary {
 		return result;
 	}
 
-	// This method take the complement of the array S which is a subset of the array
-	// A
+	/**
+     * Method to find the complement of a subset in the universal set.
+     * @param S The universal set.
+     * @param A The subset.
+     * @return An ArrayList containing the complement of the subset in the universal set.
+     */
 	public ArrayList complement(int[] S, int[] A) {
 		Arrays.sort(S);
 		Arrays.sort(A);
@@ -189,7 +247,12 @@ public class StatLibrary {
 		return result;
 	}
 
-	// This would find the sample variance from chapter 1
+	/**
+     * Method to find the sample variance of an array of integers.
+     * @param data The array of integers.
+     * @return The sample variance of the array.
+     */
+
 	public double findSampleVariance(int[] data) {
 		double mean = findMean(data);
 		double sum = 0;
@@ -201,34 +264,54 @@ public class StatLibrary {
 		return (sum / (n - 1));
 	}
 
-	// This would find the Standard deviation.
+	/**
+     * Method to find the standard deviation of an array of integers.
+     * @param data The array of integers.
+     * @return The standard deviation of the array.
+     */
 	public double FindStandardDeviation(int[] data) {
 		double s = findSampleVariance(data);
 		return Math.sqrt(s);
 	}
 
-	// It's just multiplication so IDK.
+	/**
+     * Method to find the product of two numbers.
+     * @param m The first number.
+     * @param n The second number.
+     * @return The product of the two numbers.
+     */
 	public double findMNRule(double m, double n) {
 		return m * n;
 	}
 
-	// Permutation method
+	/**
+     * Method to find the permutation of n and r.
+     * @param n The total number of items.
+     * @param r The number of items to choose.
+     * @return The permutation of n and r.
+     */
 	public double findPermutation(int n, int r) {
 		return factorial(n) / (double) factorial(n - r);
 	}
 
-	// This method uses the previously created permutation method to solve the
-	// combination formula
+	/**
+	 * Method to calculate combinations (nCr).
+	 * @param n The total number of items.
+	 * @param r The number of items to choose.
+	 * @return The number of combinations (nCr).
+	 */
 	public double findCombination(int n, int r) {
 		double temp = findPermutation(n, r);
 		return temp / factorial(r);
 	}
 
-	// If given P(A), P(B), and either P(A|B), P(B|A), or P(A and B)
-	// Else IDK how I can figure this out, unless I do conditional probability
-	// and as for P(A and B), I would need to know if A and B are
-	// dependent/independent
-	// to calculate it
+	/**
+     * Method to check if two events are dependent.
+     * @param A The probability of event A.
+     * @param B The probability of event B.
+     * @param condition The conditional probability.
+     * @return True if the events are dependent, false otherwise.
+     */
 	public boolean isDependent(double A, double B, double condition) {
 		if (A == condition || B == condition || (A * B) == condition) {
 			return false;
@@ -236,10 +319,13 @@ public class StatLibrary {
 		return true;
 	}
 
-	// How many input do I need?
-	// I think I need at least 4, P(A), P(B), P(A|B) OR P(B|A), and the dependency
-	// Else I can't really know how to calculate the numerator and denominator
-	// Formula would be P(A and B) / P(B)
+	/**
+     * Method to find the conditional probability.
+     * @param A The probability of event A.
+     * @param B The probability of event B.
+     * @param pGiven The conditional probability.
+     * @return The conditional probability.
+     */
 	public double findConditional(double A, double B, double pGiven) {
 		if (isDependent(A, B, pGiven)) {
 			return (pGiven * A) / B;
@@ -248,46 +334,64 @@ public class StatLibrary {
 		}
 	}
 
-	// Multiplicative law of probability that calculate P(A and B)
-	// Given that the parameters are either (P(A) and (PB))
-	// or (P(A) and P(B|A)) or vise versa,
-	// it doesn't matter if they're dependent or not
-	// They both parameters are (one probabilty * another probability)
+	/**
+     * Method to find the multiplicative law of probability.
+     * @param p1 The first probability.
+     * @param p2 The second probability.
+     * @return The probability of both events occurring.
+     */
 	public double findMultiLaw(double p1, double p2) {
 		return p1 * p2;
 	}
 
-	// Additive law of probability method calculate P(A U B)
-	// Given parameters P(A), P(B), P(A and B), and dependency status
+	/**
+     * Method to find the additive law of probability.
+     * @param A The probability of event A.
+     * @param B The probability of event B.
+     * @param pAnd The probability of both events occurring.
+     * @return The probability of either event occurring.
+     */
 	public double findAddLaw(double A, double B, double pAnd) {
 		return A + B - pAnd;
 	}
 
-	// In case that A and B are mutually exclusive, P(A and B) = 0
+	/**
+     * Method to find the additive law of probability for mutually exclusive events.
+     * @param A The probability of event A.
+     * @param B The probability of event B.
+     * @return The probability of either event occurring.
+     */
 	public double findAddLaw(double A, double B) {
 		return A + B;
 	}
 
-	// Complement method
-	// This method would find P(A) by subtracting P(A') from 1
-	// Given just P(A') and assuming number of runs/trials is n = 1
+	/**
+     * Method to find the complement of a probability.
+     * @param B The probability of the event.
+     * @return The complement of the probability.
+     */
 	public double findComplement(double B) {
 		return 1 - B;
 	}
 
-	// Given P(A) and n = the number of runs/trials
+	/**
+     * Method to find the complement of a probability over multiple trials.
+     * @param B The probability of the event.
+     * @param n The number of trials.
+     * @return The complement of the probability over multiple trials.
+     */
 
 	public double findComplement(double B, int n) {
 		return (1 - Math.pow(B, n));
 	}
-	// End of testing
-	// End of testing
 
-	// Bayes theorem method
-	// Method is designed if and only if given these specs
-	// The first array consist of P(A|B[i]) for all i
-	// Second array is P(B[i]) values for all B
-	// n is the vale/index that you're looking for
+	/**
+     * Method to find the probability using Bayes' theorem.
+     * @param pGiven The array of conditional probabilities.
+     * @param B The array of probabilities of the events.
+     * @param n The index of the event to find the probability for.
+     * @return The probability of the event using Bayes' theorem.
+     */
 	public double findBayes(double[] pGiven, double[] B, int n) {
 		double sum = 0;
 		for (int i = 0; i < pGiven.length; i++) {
@@ -297,9 +401,12 @@ public class StatLibrary {
 		return num / sum;
 	}
 
-	// This method find the expected and variance value of a random variable
-	// Im not sure about this one, it have a sigma symbol
-	// But only the bottom variable is included
+	/**
+     * Method to find the expected value of a random variable.
+     * @param y The array of values of the random variable.
+     * @param pY The probability of the random variable.
+     * @return The expected value of the random variable.
+     */
 	public double findExpectedRandom(double[] y, double pY) {
 		double sum = 0;
 		for (int i = 0; i < y.length; i++) {
@@ -308,7 +415,13 @@ public class StatLibrary {
 		return sum;
 	}
 
-	// This method calculate the variance of a random variable
+	/**
+     * Method to find the variance of a random variable.
+     * @param Expected The expected value of the random variable.
+     * @param y The array of values of the random variable.
+     * @param pY The probability of the random variable.
+     * @return The variance of the random variable.
+     */
 	public double findVarianceRandom(double Expected, double[] y, double pY) {
 		double sum = 0;
 		for (int i = 0; i < y.length; i++) {
@@ -317,56 +430,115 @@ public class StatLibrary {
 		return sum;
 	}
 
-	// This method find the binomial distribution of the given values
+	/**
+     * Method to find the binomial distribution.
+     * @param n The number of trials.
+     * @param y The number of successes.
+     * @param p The probability of success on a single trial.
+     * @return The binomial distribution.
+     */
 	public double findBinomialDistr(int n, int y, double p) {
 		double combination = findCombination(n, y);
 		return combination * Math.pow(p, y) * Math.pow(1 - p, n - y);
 	}
 
-	// Find the expected value of the binomial distribution
+	/**
+     * Method to find the expected value of the binomial distribution.
+     * @param n The number of trials.
+     * @param p The probability of success on a single trial.
+     * @return The expected value of the binomial distribution.
+     */
 	public double findExpectedBinomial(int n, double p) {
 		return n * p;
 	}
 
-	// Find the variance of the binomial distribution
+	/**
+     * Method to find the variance of the binomial distribution.
+     * @param n The number of trials.
+     * @param p The probability of success on a single trial.
+     * @return The variance of the binomial distribution.
+     */
 	public double findVarianceBinomial(int n, double p) {
 		return n * p * (1 - p);
 	}
 
-	// This method find the geometric distribution, given q, p, and y
+	/**
+     * Method to find the geometric distribution.
+     * @param p The probability of success on a single trial.
+     * @param n The number of trials.
+     * @return The geometric distribution.
+     */
 	public double findGeometricDistr(double p, int n) {
 		return Math.pow(1 - p, n - 1) * p;
 	}
 
-	// This find the expected value of geometric distribution
+	/**
+     * Method to find the expected value of the geometric distribution.
+     * @param p The probability of success on a single trial.
+     * @return The expected value of the geometric distribution.
+     */
 	public double findExpectedGeoDistri(double p) {
 		return 1 / p;
 	}
 
-	// This method find the variance of the geometric distribution
+	/**
+     * Method to find the variance of the geometric distribution.
+     * @param p The probability of success on a single trial.
+     * @return The variance of the geometric distribution.
+     */
 	public double findVarianceGeoDistr(double p) {
 		return (1 - p) / Math.pow(p, 2);
 	}
 
-	// This methods are the shortcuts that you mentioned
+	/**
+	* Method to find the probability of success on or before a given trial in the geometric distribution.
+	* @param p The probability of success on a single trial.
+	* @param n The number of trials.
+	* @return The probability of success on or before the given trial.
+	*/
 	public double findGeoONorBefore(double p, int n) {
 		return 1 - Math.pow(1 - p, n);
 	}
 
+	/**
+     * Method to find the probability of success before a given trial in the geometric distribution.
+     * @param p The probability of success on a single trial.
+     * @param n The number of trials.
+     * @return The probability of success before the given trial.
+     */
 	public double findGeoBefore(double p, int n) {
 		return 1 - Math.pow(1 - p, n - 1);
 	}
 
+	/**
+	 * Method to find the probability of success on or after a given trial in the geometric distribution.
+	 * @param p The probability of success on a single trial.
+	 * @param n The number of trials.
+	 * @return The probability of success on or after the given trial.
+	 */
 	public double findGeoONorAfter(double p, int n) {
 		return Math.pow(1 - p, n - 1);
 	}
 
+	/**
+	 * Method to find the probability of success after a given trial in the geometric distribution.
+	 * @param p The probability of success on a single trial.
+	 * @param n The number of trials.
+	 * @return The probability of success after the given trial.
+	 */
 	public double findGeoAfter(double p, int n) {
 		return Math.pow(1 - p, n);
 	}
 	// End of shortcut methods
 
-	// This method calculate the hypergeometric probability distribution
+	/**
+     * Method to find the hypergeometric distribution.
+     * @param r The number of successes in the population.
+     * @param y The number of successes in the sample.
+     * @param N The population size.
+     * @param n The sample size.
+     * @return The hypergeometric distribution.
+     */	
 	public double findHGD(int r, int y, int N, int n) {
 		double comb1 = findCombination(r, y);
 		double comb2 = findCombination(N - r, n - y);
@@ -374,34 +546,65 @@ public class StatLibrary {
 		return (comb1 * comb2) / denomi;
 	}
 
-	// This find the exptected value for hypergeometric distribution
+	/**
+     * Method to find the expected value of the hypergeometric distribution.
+     * @param n The sample size.
+     * @param r The number of successes in the population.
+     * @param N The population size.
+     * @return The expected value of the hypergeometric distribution.
+     */
 	public double findExpectedHGD(int n, int r, int N) {
 		return (n * r) / (double) N;
 	}
 
-	// This method find the variance of HGD
+	/**
+     * Method to find the variance of the hypergeometric distribution.
+     * @param n The sample size.
+     * @param r The number of successes in the population.
+     * @param N The population size.
+     * @return The variance of the hypergeometric distribution.
+     */
 	public double findVarianceHGD(int n, int r, double N) {
 		return n * (r / N) * ((N - r) / N) * ((N - n) / (N - 1));
 	}
 
-	// Need testing
-	// This method is negative binomial distribution
-	// Given those parameters
+	/**
+ * Method to calculate the negative binomial distribution.
+ * @param y The number of trials.
+ * @param r The number of successes.
+ * @param p The probability of success on a single trial.
+ * @return The negative binomial distribution.
+ */
 	public double findNBD(int y, int r, double p) {
 		double comb = findCombination(y - 1, r - 1);
 		return comb * Math.pow(p, r) * Math.pow(1 - p, y - r);
 	}
 
-	// Expected and variance methods for NBD
+	/**
+ * Method to find the expected value of the negative binomial distribution.
+ * @param r The number of successes.
+ * @param p The probability of success on a single trial.
+ * @return The expected value of the negative binomial distribution.
+ */
 	public double findExpectedNBD(int r, double p) {
 		return r / p;
 	}
 
+	/**
+	 * Method to find the variance of the negative binomial distribution.
+	 * @param r The number of successes.
+	 * @param p The probability of success on a single trial.
+	 * @return The variance of the negative binomial distribution.
+	 */
 	public double findVarianceNBD(int r, double p) {
 		return (r * (1 - p)) / Math.pow(p, 2);
 	}
 
-	// This would just for the mean median and mode, just to display the array
+	/**
+	 * Method to print the elements of an array.
+	 * This is used for displaying the mean, median, and mode.
+	 * @param pB The array to be printed.
+	 */
 	public static void printArray(double[] pB) {
 		for (double c : pB) {
 			System.out.print(c + ", ");
