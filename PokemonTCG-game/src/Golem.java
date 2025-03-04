@@ -1,9 +1,15 @@
 import javax.swing.*;
 
+/**
+ * The Golem class represents a Golem Pokemon card.
+ */
 public class Golem extends PokemonCard {
-    private Attack earthQuake;
-    private Attack stoneEdge;
+    private Attack earthQuake; // The first attack of Golem
+    private Attack stoneEdge; // The second attack of Golem
 
+    /**
+     * Constructor to initialize the Golem card with its properties.
+     */
     public Golem() {
         super("Golem", 88, "Rock", 30, "rock.png",
                 new Attack("Earthquake", 20),
@@ -14,6 +20,10 @@ public class Golem extends PokemonCard {
         this.stoneEdge = getAttack2();
     }
 
+    /**
+     * Method to use the first attack (Earthquake) on an opponent.
+     * @param opponent The opponent Pokemon card.
+     */
     @Override
     public void useAttack(PokemonCard opponent) {
         if (getEnergy() >= 1) {
@@ -31,6 +41,10 @@ public class Golem extends PokemonCard {
         }
     }
 
+    /**
+     * Method to use the second attack (Stone Edge) on an opponent.
+     * @param opponent The opponent Pokemon card.
+     */
     @Override
     public void useAttack2(PokemonCard opponent) {
         if (getEnergy() >= 2) {
@@ -38,6 +52,7 @@ public class Golem extends PokemonCard {
             stoneEdge.performAttack(this, opponent);
             opponent.takeDamage(damageDealt);
 
+            // 10% chance to paralyze the opponent
             if (Math.random() < 0.1) {
                 opponent.setStatusEffect("Paralyze");
                 JOptionPane.showMessageDialog(null, opponent.getName() + " is now Paralyzed!",
@@ -53,5 +68,4 @@ public class Golem extends PokemonCard {
                     "Energy Required", JOptionPane.WARNING_MESSAGE);
         }
     }
-
 }

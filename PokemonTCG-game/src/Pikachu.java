@@ -1,9 +1,15 @@
 import javax.swing.*;
 
+/**
+ * The Pikachu class represents a Pikachu Pokemon card.
+ */
 public class Pikachu extends PokemonCard {
-    private Attack thunderShock;
-    private Attack thunderBall;
+    private Attack thunderShock; // The first attack of Pikachu
+    private Attack thunderBall; // The second attack of Pikachu
 
+    /**
+     * Constructor to initialize the Pikachu card with its properties.
+     */
     public Pikachu() {
         super("Pikachu", 60, "Electric", 20, "pikachu.png",
                 new Attack("Thunder Shock", 20),
@@ -14,6 +20,10 @@ public class Pikachu extends PokemonCard {
         this.thunderBall = getAttack2();
     }
 
+    /**
+     * Method to use the first attack (Thunder Shock) on an opponent.
+     * @param opponent The opponent Pokemon card.
+     */
     @Override
     public void useAttack(PokemonCard opponent) {
         if (getEnergy() >= 1) {
@@ -21,6 +31,7 @@ public class Pikachu extends PokemonCard {
             thunderShock.performAttack(this, opponent);
             opponent.takeDamage(damageDealt);
 
+            // 10% chance to paralyze the opponent
             if (Math.random() < 0.1) {
                 opponent.setStatusEffect("Paralyze");
                 System.out.println(opponent.getName() + " is now Paralyzed!");
@@ -33,6 +44,10 @@ public class Pikachu extends PokemonCard {
         }
     }
 
+    /**
+     * Method to use the second attack (Thunder Ball) on an opponent.
+     * @param opponent The opponent Pokemon card.
+     */
     @Override
     public void useAttack2(PokemonCard opponent) {
         if (getEnergy() >= 2) {
@@ -40,6 +55,7 @@ public class Pikachu extends PokemonCard {
             thunderBall.performAttack(this, opponent);
             opponent.takeDamage(damageDealt);
 
+            // 10% chance to paralyze the opponent
             if (Math.random() < 0.1) {
                 opponent.setStatusEffect("Paralyze");
                 System.out.println(opponent.getName() + " is now Paralyzed!");
@@ -51,6 +67,4 @@ public class Pikachu extends PokemonCard {
             this.minusEnergy(2);
         }
     }
-
 }
-

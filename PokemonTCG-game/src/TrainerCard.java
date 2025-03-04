@@ -1,10 +1,17 @@
-
-
-public  class TrainerCard extends Card {
+public class TrainerCard extends Card {
+    /**
+     * Constructor to initialize the TrainerCard with its name.
+     * @param name The name of the Trainer card.
+     */
     public TrainerCard(String name) {
         super(name);
     }
 
+    /**
+     * Method to use the effect of the Trainer card.
+     * @param player The player using the Trainer card.
+     * @param deck The deck from which cards may be drawn.
+     */
     public void useEffect(Player player, Deck deck) {
         switch (name) {
             case "Potion50":
@@ -28,7 +35,3 @@ public  class TrainerCard extends Card {
         }
     }
 }
-
-
-
-

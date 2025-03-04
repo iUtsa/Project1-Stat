@@ -1,17 +1,27 @@
 import javax.swing.*;
+
+/**
+ * The MewTwo class represents a MewTwo Pokemon card.
+ */
 public class MewTwo extends PokemonCard {
-    private Attack ancientPower;
-    private Attack psycStrike;
+    private Attack ancientPower; // The first attack of MewTwo
+    private Attack psycStrike; // The second attack of MewTwo
 
-
+    /**
+     * Constructor to initialize the MewTwo card with its properties.
+     */
     public MewTwo() {
-        super("Mewtwo", 100, "Pcychic", 35, "mewtwo.png",
+        super("Mewtwo", 100, "Psychic", 35, "mewtwo.png",
                 new Attack("Ancient Power", 25),
                 new Attack("Psycstrike", 35));
         this.psycStrike = new Attack("Psyc Strike", 35);
         this.ancientPower = new Attack("Ancient Power", 25);
     }
 
+    /**
+     * Method to use the first attack (Ancient Power) on an opponent.
+     * @param opponent The opponent Pokemon card.
+     */
     @Override
     public void useAttack(PokemonCard opponent) {
         if (getEnergy() >= 1) {
@@ -19,6 +29,7 @@ public class MewTwo extends PokemonCard {
             ancientPower.performAttack(this, opponent);
             opponent.takeDamage(damageDealt);
 
+            // 10% chance to paralyze the opponent
             if (Math.random() < 0.1) {
                 opponent.setStatusEffect("Paralyze");
                 System.out.println(opponent.getName() + " is now Paralyzed!");
@@ -31,6 +42,10 @@ public class MewTwo extends PokemonCard {
         }
     }
 
+    /**
+     * Method to use the second attack (Psyc Strike) on an opponent.
+     * @param opponent The opponent Pokemon card.
+     */
     @Override
     public void useAttack2(PokemonCard opponent) {
         if (getEnergy() >= 2) {
@@ -38,6 +53,7 @@ public class MewTwo extends PokemonCard {
             psycStrike.performAttack(this, opponent);
             opponent.takeDamage(damageDealt);
 
+            // 10% chance to paralyze the opponent
             if (Math.random() < 0.1) {
                 opponent.setStatusEffect("Paralyze");
                 System.out.println(opponent.getName() + " is now Paralyzed!");
@@ -49,5 +65,4 @@ public class MewTwo extends PokemonCard {
             this.minusEnergy(2);
         }
     }
-
 }

@@ -1,39 +1,46 @@
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * The MenuGUI class represents the main menu GUI for the Pokémon Card Game.
+ * It provides options to start the game, view the rules, and quit the application.
+ */
 public class MenuGUI extends JFrame {
+    /**
+     * Constructor to initialize the MenuGUI with its properties and components.
+     */
     public MenuGUI() {
         setTitle("Pokémon Card Game");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // ✅ Load Background Image
+        // Load Background Image
         ImageIcon backgroundImage = new ImageIcon(getClass().getClassLoader().getResource("assets/pokemon.png"));
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setLayout(new BorderLayout());
 
-        // ✅ Layered Pane to Keep Title & Buttons on Top
+        // Layered Pane to Keep Title & Buttons on Top
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(800, 600));
 
-        // ✅ Background Panel
+        // Background Panel
         backgroundLabel.setBounds(0, 0, 800, 600);
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
 
-        // ✅ Title Label (Foreground Layer)
+        // Title Label (Foreground Layer)
         JLabel titleLabel = new JLabel("Pokémon Card Game", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBounds(0, 50, 800, 50); // Adjust Y position
         layeredPane.add(titleLabel, JLayeredPane.PALETTE_LAYER); // Upper Layer
 
-        // ✅ Button Panel (Foreground Layer)
+        // Button Panel (Foreground Layer)
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         buttonPanel.setOpaque(false);
         buttonPanel.setBounds(250, 200, 300, 150); // Centered button position
 
-        // ✅ Buttons
+        // Buttons
         JButton startButton = new JButton("Start Game");
         JButton rulesButton = new JButton("Rules");
         JButton quitButton = new JButton("Quit");
@@ -44,7 +51,7 @@ public class MenuGUI extends JFrame {
             dispose();
         });
 
-        // ✅ Improved Rules Display
+        // Improved Rules Display
         rulesButton.addActionListener(e -> showGameRules());
 
         quitButton.addActionListener(e -> System.exit(0));
@@ -59,7 +66,9 @@ public class MenuGUI extends JFrame {
         setVisible(true);
     }
 
-    // ✅ Function to Show Full Game Rules
+    /**
+     * Function to show the full game rules in a dialog.
+     */
     private void showGameRules() {
         String rulesText = """
             <html>

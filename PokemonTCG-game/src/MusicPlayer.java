@@ -2,9 +2,16 @@ import java.io.IOException;
 import java.net.URL;
 import javax.sound.sampled.*;
 
+/**
+ * The MusicPlayer class provides methods to play and stop background music for the game.
+ */
 public class MusicPlayer {
-    private static Clip clip;
+    private static Clip clip; // Clip to play the audio
 
+    /**
+     * Method to play music from the specified file path.
+     * @param filePath The path to the music file.
+     */
     public static void playMusic(String filePath) {
         try {
             URL soundURL = MusicPlayer.class.getResource(filePath);
@@ -17,7 +24,7 @@ public class MusicPlayer {
             clip = AudioSystem.getClip();
             clip.open(audioStream);
 
-            // ✅ Add a loop listener to restart when music ends
+            // Add a loop listener to restart when music ends
             clip.addLineListener(event -> {
                 if (event.getType() == LineEvent.Type.STOP) {
                     clip.setFramePosition(0); // Rewind to the beginning
@@ -31,6 +38,9 @@ public class MusicPlayer {
         }
     }
 
+    /**
+     * Method to stop the currently playing music.
+     */
     public static void stopMusic() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
