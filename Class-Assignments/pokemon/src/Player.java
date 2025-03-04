@@ -1,15 +1,22 @@
-
 import java.util.*;
 
+/**
+ * The Player class represents a player in the Pokémon game.
+ * It manages the player's deck, hand, prize pile, discard pile, and board.
+ */
 public class Player {
-    private String name;
-    private List<String> deck;
-    private List<String> hand;
-    private List<String> prizePile;
-    private List<String> discardPile;
-    private List<String> board;
-    private Random rand = new Random();
+    private String name; // The name of the player
+    private List<String> deck; // The player's deck of cards
+    private List<String> hand; // The player's hand of cards
+    private List<String> prizePile; // The player's prize pile
+    private List<String> discardPile; // The player's discard pile
+    private List<String> board; // The player's board where Pokémon are played
+    private Random rand = new Random(); // Random number generator for shuffling
 
+    /**
+     * Constructor to initialize a player with a given name.
+     * @param name The name of the player.
+     */
     public Player(String name) {
         this.name = name;
         this.deck = new ArrayList<>();
@@ -19,12 +26,19 @@ public class Player {
         this.board = new ArrayList<>();
     }
 
+    /**
+     * Gets the name of the player.
+     * @return The name of the player.
+     */
     public String getName() {
         return name;
     }
 
     /**
      * Builds a deck with the given number of Pokémon, Trainer, and Energy cards.
+     * @param pokemonCount The number of Pokémon cards.
+     * @param trainerCount The number of Trainer cards.
+     * @param energyCount The number of Energy cards.
      */
     public void buildDeck(int pokemonCount, int trainerCount, int energyCount) {
         deck.clear();
@@ -54,6 +68,7 @@ public class Player {
 
     /**
      * Simulates a turn where the player can play Pokémon, use Trainer cards, or attach Energy.
+     * @param scanner The Scanner object to read user input.
      */
     public void takeTurn(Scanner scanner) {
         System.out.println(name + "'s hand: " + hand);
@@ -126,6 +141,7 @@ public class Player {
 
     /**
      * Checks if the player has won (dummy condition: board has 3 Pokémon).
+     * @return True if the player has won, false otherwise.
      */
     public boolean hasWon() {
         return board.size() >= 3;
