@@ -1,12 +1,7 @@
 
 import java.util.ArrayList;
 
-/**
- * Write a description of class TestExample here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class MMMTester
 {
     public static void main(String[] args){
