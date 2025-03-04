@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The Set_Theory class provides methods to perform set operations such as union, intersection, and complement.
+ * The Set_Theory class provides methods to perform set operations such as union, intersection, and complement...
  */
 public class Set_Theory {
 
