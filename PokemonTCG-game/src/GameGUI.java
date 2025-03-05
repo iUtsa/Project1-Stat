@@ -478,35 +478,82 @@ public class GameGUI extends JFrame {
 
     //  Distributes Initial Hands (Ensuring at Least 1 Pokémon)
     private void distributeInitialHands(Player player, Deck playerDeck) {
-        ArrayList<Card> tempHand = new ArrayList<>();
-        boolean hasPokemon = false;
+        ArrayList<Card> tempHand;
+        boolean hasPokemon;
 
-        while (tempHand.size() < 7) {
-            Card drawnCard = playerDeck.drawCard(); // ✅ Now draws from the correct deck
-            if (drawnCard instanceof PokemonCard) {
-                hasPokemon = true;
+        do {
+            tempHand = new ArrayList<>();
+            hasPokemon = false;
+            playerDeck.shuffle(); // ✅ Shuffle before each attempt
+
+            while (tempHand.size() < 7) {
+                Card drawnCard = playerDeck.drawCard();
+                if (drawnCard == null) break; // ✅ Prevents drawing from an empty deck
+                tempHand.add(drawnCard);
+                if (drawnCard instanceof PokemonCard) {
+                    hasPokemon = true;
+                }
             }
-            tempHand.add(drawnCard);
-        }
-        player.setHand(tempHand);
+
+        } while (!hasPokemon); // ✅ Repeat drawing until there's at least 1 Pokémon
+
+        player.setHand(tempHand); // ✅ Assign the ensured hand to the player
     }
+
 
 
     private void updateActivePokemonDisplay() {
         if (activePokemonPanel == null) return; // Prevent NullPointerException
 
         activePokemonPanel.removeAll(); // Clear previous Pokémon display
-        Player currentPlayer = getCurrentPlayer();
-        PokemonCard active = currentPlayer.getActive();
 
-        if (active != null) {
-            JLabel activeLabel = new JLabel(active.getName() + " (HP: " + active.getHp() + ", Energy: " + active.getEnergy() + ")");
-            activeLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            activeLabel.setForeground(Color.WHITE);
+        Player currentPlayer = getCurrentPlayer();
+        Player opponent = (currentPlayer == player1) ? player2 : player1;
+
+        PokemonCard activeCurrent = currentPlayer.getActive();
+        PokemonCard activeOpponent = opponent.getActive();
+
+        // Upper part: Current Player's Active Pokémon
+        JLabel currentPlayerLabel = new JLabel(currentPlayer.getName() + "'s Active Pokémon:");
+        currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        currentPlayerLabel.setForeground(Color.WHITE);
+        activePokemonPanel.add(currentPlayerLabel);
+
+        if (activeCurrent != null) {
+            JLabel activeLabel = new JLabel(activeCurrent.getName() + " (HP: " + activeCurrent.getHp() + ", Energy: " + activeCurrent.getEnergy() + ")");
+            activeLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            activeLabel.setForeground(Color.GREEN);
             activePokemonPanel.add(activeLabel);
         } else {
             JLabel noPokemonLabel = new JLabel("No Active Pokémon");
-            noPokemonLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            noPokemonLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            noPokemonLabel.setForeground(Color.RED);
+            activePokemonPanel.add(noPokemonLabel);
+        }
+
+        // Divider Line
+        // Lower the Divider Line
+        activePokemonPanel.add(Box.createVerticalStrut(75)); // Moves the line lower
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        separator.setForeground(Color.WHITE);
+        separator.setPreferredSize(new Dimension(activePokemonPanel.getWidth(), 2)); // Reduce thickness
+        activePokemonPanel.add(separator);
+
+
+        // Lower part: Opponent's Active Pokémon
+        JLabel opponentLabel = new JLabel(opponent.getName() + "'s Active Pokémon:");
+        opponentLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        opponentLabel.setForeground(Color.WHITE);
+        activePokemonPanel.add(opponentLabel);
+
+        if (activeOpponent != null) {
+            JLabel activeLabel = new JLabel(activeOpponent.getName() + " (HP: " + activeOpponent.getHp() + ", Energy: " + activeOpponent.getEnergy() + ")");
+            activeLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            activeLabel.setForeground(Color.YELLOW);
+            activePokemonPanel.add(activeLabel);
+        } else {
+            JLabel noPokemonLabel = new JLabel("No Active Pokémon");
+            noPokemonLabel.setFont(new Font("Arial", Font.BOLD, 14));
             noPokemonLabel.setForeground(Color.RED);
             activePokemonPanel.add(noPokemonLabel);
         }
@@ -514,6 +561,7 @@ public class GameGUI extends JFrame {
         activePokemonPanel.revalidate();
         activePokemonPanel.repaint();
     }
+
 
 
 
@@ -543,18 +591,62 @@ public class GameGUI extends JFrame {
         if (benchPanel == null) return; // Prevent NullPointerException
 
         benchPanel.removeAll(); // Clear previous Pokémon display
-        Player currentPlayer = getCurrentPlayer();
-        ArrayList<PokemonCard> bench = currentPlayer.getBench();
 
-        if (bench.isEmpty()) {
+        Player currentPlayer = getCurrentPlayer();
+        Player opponent = (currentPlayer == player1) ? player2 : player1;
+
+        ArrayList<PokemonCard> currentBench = currentPlayer.getBench();
+        ArrayList<PokemonCard> opponentBench = opponent.getBench();
+
+        // **Upper part: Current Player's Bench**
+        JLabel currentPlayerLabel = new JLabel(currentPlayer.getName() + "'s Bench:");
+        currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        currentPlayerLabel.setForeground(Color.WHITE);
+        benchPanel.add(currentPlayerLabel);
+
+        if (currentBench.isEmpty()) {
             JLabel noBenchPokemonLabel = new JLabel("No Pokémon on Bench");
             noBenchPokemonLabel.setFont(new Font("Arial", Font.BOLD, 14));
             noBenchPokemonLabel.setForeground(Color.RED);
             benchPanel.add(noBenchPokemonLabel);
         } else {
-            for (PokemonCard pokemon : bench) {
+            int pokemonCount = currentBench.size();
+            int fontSize = (pokemonCount >= 4) ? 11 : 13; // Reduce font only when 4+ Pokémon
+
+
+            for (PokemonCard pokemon : currentBench) {
                 JLabel benchLabel = new JLabel(pokemon.getName() + " (HP: " + pokemon.getHp() + ")");
-                benchLabel.setFont(new Font("Arial", Font.BOLD, 14));
+                benchLabel.setFont(new Font("Arial", Font.BOLD, fontSize));
+                benchLabel.setForeground(Color.GREEN);
+                benchPanel.add(benchLabel);
+            }
+        }
+
+        // **Ensure Divider Always Stays**
+        benchPanel.add(Box.createVerticalStrut(50)); // Pushes divider down
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        separator.setForeground(Color.WHITE);
+        separator.setPreferredSize(new Dimension(benchPanel.getWidth(), 1)); // Thin horizontal line
+        benchPanel.add(separator);
+
+        // **Lower part: Opponent's Bench**
+        JLabel opponentLabel = new JLabel(opponent.getName() + "'s Bench:");
+        opponentLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        opponentLabel.setForeground(Color.WHITE);
+        benchPanel.add(opponentLabel);
+
+        if (opponentBench.isEmpty()) {
+            JLabel noBenchPokemonLabel = new JLabel("No Pokémon on Bench");
+            noBenchPokemonLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            noBenchPokemonLabel.setForeground(Color.RED);
+            benchPanel.add(noBenchPokemonLabel);
+        } else {
+            int pokemonCount = currentBench.size();
+            int fontSize = (pokemonCount >= 4) ? 11 : 13; // Reduce font only when 4+ Pokémon
+
+            for (PokemonCard pokemon : opponentBench) {
+                JLabel benchLabel = new JLabel(pokemon.getName() + " (HP: " + pokemon.getHp() + ")");
+                benchLabel.setFont(new Font("Arial", Font.BOLD, fontSize));
                 benchLabel.setForeground(Color.YELLOW);
                 benchPanel.add(benchLabel);
             }
@@ -563,6 +655,7 @@ public class GameGUI extends JFrame {
         benchPanel.revalidate();
         benchPanel.repaint();
     }
+
 
 
 
@@ -1147,20 +1240,35 @@ public class GameGUI extends JFrame {
         boolean opponentHasBench = !opponent.getBench().isEmpty();
         boolean opponentHasHand = opponent.getHand().stream().anyMatch(card -> card instanceof PokemonCard);
 
+        // ✅ Prevent forcing Pokémon onto the opponent if they haven't chosen to play
         if (!opponentHasActive) {
             if (opponentHasBench) {
-                PokemonCard newActive = opponent.getBench().remove(0);
-                opponent.setActivePokemon(newActive);
-                JOptionPane.showMessageDialog(this,
-                        opponent.getName() + " sent out " + newActive.getName() + "!",
-                        "New Active Pokémon",
-                        JOptionPane.INFORMATION_MESSAGE);
+                int choice = JOptionPane.showConfirmDialog(this,
+                        opponent.getName() + ", do you want to send out a Pokémon from your bench?",
+                        "Choose Pokémon",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    PokemonCard newActive = opponent.getBench().remove(0);
+                    opponent.setActivePokemon(newActive);
+                    JOptionPane.showMessageDialog(this,
+                            opponent.getName() + " sent out " + newActive.getName() + "!",
+                            "New Active Pokémon",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
             } else if (opponentHasHand) {
-                sendOutPokemonFromHand(opponent);
+                int choice = JOptionPane.showConfirmDialog(this,
+                        opponent.getName() + ", do you want to send out a Pokémon from your hand?",
+                        "Choose Pokémon",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    sendOutPokemonFromHand(opponent);
+                }
             }
         }
 
-        // ✅ If the opponent has NO Pokémon left after switching turns, they lose
+        // ✅ If the opponent chooses NOT to play a Pokémon and has no Pokémon left, they lose
         if (!opponentHasActive && !opponentHasBench && !opponentHasHand) {
             JOptionPane.showMessageDialog(this,
                     opponent.getName() + " has no Pokémon left! " + currentPlayer.getName() + " wins!",
