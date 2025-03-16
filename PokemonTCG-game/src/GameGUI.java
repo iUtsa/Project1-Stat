@@ -4,26 +4,27 @@ import java.util.ArrayList;
 import java.util.*;
 
 
-//this class controls and designs the game
+// This class controls and designs the game
 public class GameGUI extends JFrame {
-    private Player player1, player2;
-    private Deck player1Deck, player2Deck;
+    private Player player1, player2; // Players in the game
+    private Deck player1Deck, player2Deck; // Decks for each player
 
-    private JLabel playerTurnLabel, playerCardsLabel, playerBenchLabel;
-    private JButton playPokemonButton, attackButton, playTrainerButton;
-    private JButton addPokemonFieldButton, addPokemonBenchButton, attachEnergyButton, drawCardButton, endTurnButton, exitPlayButton;
+    private JLabel playerTurnLabel, playerCardsLabel, playerBenchLabel; // Labels for displaying player information
+    private JButton playPokemonButton, attackButton, playTrainerButton; // Buttons for game actions
+    private JButton addPokemonFieldButton, addPokemonBenchButton, attachEnergyButton, drawCardButton, endTurnButton, exitPlayButton; // More buttons for game actions
 
-    private boolean isPlayer1Turn;
+    private boolean isPlayer1Turn; // Flag to track whose turn it is
 
-    private JPanel benchPanel, activePokemonPanel, battlefieldPanel;
-    private JPanel deckCounterPanel;
-    private JLabel deckCounterLabel, prizeCardLabel;
+    private JPanel benchPanel, activePokemonPanel, battlefieldPanel; // Panels for displaying game areas
+    private JPanel deckCounterPanel; // Panel for displaying deck counter
+    private JLabel deckCounterLabel, prizeCardLabel; // Labels for deck counter and prize cards
 
-
-
-    private boolean hasDrawnCard = false;
+    private boolean hasDrawnCard = false; // Flag to track if a card has been drawn this turn
 
 
+    /**
+     * Constructor to initialize the GameGUI.
+     */
 
     public GameGUI() {
 
@@ -41,23 +42,23 @@ public class GameGUI extends JFrame {
 
 
 
-        // ✅ Create Name Input Panel
+        //  Create Name Input Panel
         JPanel namePanel = new JPanel(null); // Use null layout for precise positioning
         namePanel.setPreferredSize(new Dimension(800, 600));
 
-        // ✅ Set Background Image
+        // Set Background Image
         JLabel backgroundLabel = new JLabel(new ImageIcon(getClass().getResource("/assets/bg.jpg")));
         backgroundLabel.setBounds(0, 0, 800, 600);
         namePanel.add(backgroundLabel);
 
-        // ✅ Headline Label (Bigger Text)
+        //  Headline Label (Bigger Text)
         JLabel titleLabel = new JLabel("Enter Player Names", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBounds(200, 50, 400, 40); // Adjust position & size
         backgroundLabel.add(titleLabel);
 
-        // ✅ Player 1 Name Input
+        //  Player 1 Name Input
         JTextField player1Field = new JTextField();
         player1Field.setFont(new Font("Arial", Font.PLAIN, 18));
         player1Field.setBounds(250, 150, 300, 40); // Medium size
@@ -69,7 +70,7 @@ public class GameGUI extends JFrame {
         player1Label.setBounds(150, 150, 100, 40);
         backgroundLabel.add(player1Label);
 
-        // ✅ Player 2 Name Input
+        //  Player 2 Name Input
         JTextField player2Field = new JTextField();
         player2Field.setFont(new Font("Arial", Font.PLAIN, 18));
         player2Field.setBounds(250, 220, 300, 40);
@@ -81,18 +82,18 @@ public class GameGUI extends JFrame {
         player2Label.setBounds(150, 220, 100, 40);
         backgroundLabel.add(player2Label);
 
-        // ✅ Start Button
+        //  Start Button
         JButton startButton = new JButton("Start Game");
         startButton.setFont(new Font("Arial", Font.BOLD, 20));
         startButton.setBounds(300, 300, 200, 50);
         backgroundLabel.add(startButton);
 
-        // ✅ Add Action Listener to Start Button
+        //  Add Action Listener to Start Button
         startButton.addActionListener(e -> {
             String player1Name = player1Field.getText().trim();
             String player2Name = player2Field.getText().trim();
 
-            // ✅ Check if any name field is empty
+            //  Check if any name field is empty
             if (player1Name.isEmpty() || player2Name.isEmpty()) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -103,7 +104,7 @@ public class GameGUI extends JFrame {
                 return; // Prevent proceeding
             }
 
-            // ✅ Remove Name Panel and Initialize Players
+            // Remove Name Panel and Initialize Players
             getContentPane().removeAll();
             player1 = new Player(player1Name);
             player2 = new Player(player2Name);
@@ -118,29 +119,33 @@ public class GameGUI extends JFrame {
             initiateCoinFlip();
         });
 
-        // ✅ Set Content Pane and Show
+        //  Set Content Pane and Show
         setContentPane(namePanel);
         setVisible(true);
     }
+
+    /**
+     * Method to initiate the coin flip to determine the starting player.
+     */
 
     private void initiateCoinFlip() {
         JPanel coinFlipPanel = new JPanel(null);
         coinFlipPanel.setPreferredSize(new Dimension(800, 600));
 
-        // ✅ Ensure the image is correctly loaded
+        //  Ensure the image is correctly loaded
         ImageIcon bgImage = loadImage("/assets/bg.jpg",800,600);
         JLabel backgroundLabel = new JLabel(bgImage);
         backgroundLabel.setBounds(0, 0, 800, 600);
         coinFlipPanel.add(backgroundLabel);
 
-        // ✅ Headline Label (Big Text)
+        //  Headline Label (Big Text)
         JLabel titleLabel = new JLabel(player1.getName() + ", Choose HEADs or TAILs!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         titleLabel.setForeground(Color.RED);
         titleLabel.setBounds(150, 50, 500, 50);
         backgroundLabel.add(titleLabel);
 
-        // ✅ Heads Button with Image
+        //  Heads Button with Image
         JButton headsButton = new JButton(loadImage("/assets/head.jpg", 150, 150));
         headsButton.setBounds(200, 200, 150, 150);
         headsButton.setBorderPainted(false);
@@ -148,14 +153,14 @@ public class GameGUI extends JFrame {
         headsButton.setFocusPainted(false);
         backgroundLabel.add(headsButton);
 
-// ✅ "Head" Caption Below Coin
+//  "Head" Caption Below Coin
         JLabel headsLabel = new JLabel("Head", SwingConstants.CENTER);
         headsLabel.setFont(new Font("Arial", Font.BOLD, 18));
         headsLabel.setForeground(Color.WHITE);
         headsLabel.setBounds(200, 360, 150, 30); // Adjusted to align with the button and be below it
         backgroundLabel.add(headsLabel);
 
-// ✅ Tails Button with Image
+//  Tails Button with Image
         JButton tailsButton = new JButton(loadImage("/assets/tail.jpg", 150, 150));
         tailsButton.setBounds(450, 200, 150, 150);
         tailsButton.setBorderPainted(false);
@@ -163,7 +168,7 @@ public class GameGUI extends JFrame {
         tailsButton.setFocusPainted(false);
         backgroundLabel.add(tailsButton);
 
-// ✅ "Tail" Caption Below Coin
+//  "Tail" Caption Below Coin
         JLabel tailsLabel = new JLabel("Tail", SwingConstants.CENTER);
         tailsLabel.setFont(new Font("Arial", Font.BOLD, 18));
         tailsLabel.setForeground(Color.WHITE);
@@ -179,6 +184,14 @@ public class GameGUI extends JFrame {
         repaint();
     }
 
+    /**
+     * Method to load an image from the resources folder.
+     * @param path The path to the image file.
+     * @param width The width of the image.
+     * @param height The height of the image.
+     * @return The loaded ImageIcon.
+     */
+
     private ImageIcon loadImage(String path, int width, int height) {
         java.net.URL imageURL = getClass().getResource(path);
         if (imageURL != null) {
@@ -192,7 +205,10 @@ public class GameGUI extends JFrame {
     }
 
 
-
+    /**
+     * Method to process the coin flip result and determine the starting player.
+     * @param player1ChoseHeads Flag to indicate if Player 1 chose Heads.
+     */
 
     private void processCoinFlip(boolean player1ChoseHeads) {
         boolean flipResultIsHeads = CoinFlip.flip(); // Randomly flips
@@ -203,7 +219,7 @@ public class GameGUI extends JFrame {
         isPlayer1Turn = player1Starts;
         String firstPlayer = player1Starts ? player1.getName() : player2.getName();
 
-        // ✅ Display the result with a new panel
+        //  Display the result with a new panel
         JPanel resultPanel = new JPanel(null);
         resultPanel.setPreferredSize(new Dimension(800, 600));
 
@@ -229,7 +245,7 @@ public class GameGUI extends JFrame {
         bgLabel.add(continueButton);
 
         continueButton.addActionListener(e -> {
-            // ✅ Proceed to Game Start
+            //  Proceed to Game Start
             getContentPane().removeAll();
             SwingUtilities.invokeLater(this::startGame);
         });
@@ -241,16 +257,18 @@ public class GameGUI extends JFrame {
 
 
 
-
+    /**
+     * Method to start the game by distributing initial hands and displaying the game board.
+     */
     private void startGame() {
         distributeInitialHands(player1, player1Deck);
         distributeInitialHands(player2, player2Deck);
 
-        // ✅ Remove previous UI components
+        //  Remove previous UI components
         getContentPane().removeAll();
         setLayout(new BorderLayout());
 
-        // ✅ Ensure UI labels are initialized
+        //  UI labels are initialized
         if (playerTurnLabel == null) playerTurnLabel = new JLabel();
         if (playerCardsLabel == null) playerCardsLabel = new JLabel();
         if (playerBenchLabel == null) playerBenchLabel = new JLabel();
@@ -265,20 +283,23 @@ public class GameGUI extends JFrame {
         topPanel.add(playerBenchLabel);
         add(topPanel, BorderLayout.NORTH);
 
-        // ✅ Ensure UI Components Are Properly Initialized Before Using setupGameBoard()
+        //  UI Components Are Properly Initialized Before Using setupGameBoard()
         setupGameBoard();
-        // ✅ Update deck counter in UI
+        // Update deck counter in UI
         updateDeckCounterDisplay();
 
-        // ✅ Update labels with actual data
+        // Update labels with actual data
         updateHandAndBenchDisplay();
 
-        // ✅ Ensure UI updates properly
+        //  UI updates properly
         revalidate();
         repaint();
         setVisible(true);
     }
 
+    /**
+     * Method to return to the main menu.
+     */
     private void updateDeckCounterDisplay() {
         Deck currentDeck = isPlayer1Turn ? player1Deck : player2Deck;
         if (deckCounterLabel != null) {
@@ -287,30 +308,33 @@ public class GameGUI extends JFrame {
     }
 
 
-
+    /**
+     * method to setup game board where game actions are performed.
+     * 
+     */
     private void setupGameBoard() {
-        // ✅ Create a layered pane for better layout management
+        // Create a layered pane for better layout management
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(800, 600));
 
-        // ✅ Ensure UI Components Are Not Null Before Adding
+        // Ensure UI Components Are Not Null Before Adding
         if (exitPlayButton == null) {
             exitPlayButton = new JButton("Exit Play");
             exitPlayButton.addActionListener(e -> returnToMainMenu());
         }
 
-        // ✅ Load Background Image
+        //  Load Background Image
         ImageIcon backgroundImage = new ImageIcon(getClass().getResource("/assets/battle.png"));
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setBounds(0, 0, 800, 600);
-        layeredPane.add(backgroundLabel, Integer.valueOf(1)); // ✅ Background is at the bottom layer
+        layeredPane.add(backgroundLabel, Integer.valueOf(1)); //  Background is at the bottom layer
 
-        // ✅ Player Name & Cards Panel
+        //  Player Name & Cards Panel
         JPanel topPanel = new JPanel(new GridLayout(2, 1));
         topPanel.setOpaque(false);
         topPanel.setBounds(50, 20, 700, 100);
 
-        // ✅ Deck Counter Label (Top Right)
+        // Deck Counter Label (Top Right)
 
         Deck currentDeck = isPlayer1Turn ? player1Deck : player2Deck;
         deckCounterLabel = new JLabel("Deck: " + currentDeck.getDeckSize());
@@ -339,43 +363,43 @@ public class GameGUI extends JFrame {
 
         topPanel.add(playerTurnLabel);
         topPanel.add(playerCardsLabel);
-        layeredPane.add(topPanel, Integer.valueOf(2)); // ✅ On top of the background
+        layeredPane.add(topPanel, Integer.valueOf(2)); //  On top of the background
 
-        // ✅ Buttons Panel (Ensure They Are Initialized)
+        //  Buttons Panel (Ensure They Are Initialized)
         JPanel buttonPanel = new JPanel(new GridLayout(1, 8, 5, 5));
         buttonPanel.setOpaque(false);
         buttonPanel.setBounds(50, 140, 700, 60);
 
         if (playTrainerButton == null) {
             playTrainerButton = new JButton("Trainer");
-            playTrainerButton.addActionListener(e -> useTrainerCard()); // ✅ Calls useTrainerCard()
+            playTrainerButton.addActionListener(e -> useTrainerCard()); //  Calls useTrainerCard()
         }
 
         if (playPokemonButton == null) playPokemonButton = new JButton("Play Pokémon");
-        playPokemonButton.addActionListener(e -> playPokemon());  // ✅ Calls the playPokemon() method
+        playPokemonButton.addActionListener(e -> playPokemon());  //  Calls the playPokemon() method
 
         if (attackButton == null) {
             attackButton = new JButton("Attack");
-            attackButton.addActionListener(e -> attack()); // ✅ Add ActionListener to call attack() method
+            attackButton.addActionListener(e -> attack()); //  Add ActionListener to call attack() method
         }
         addPokemonFieldButton = new JButton("To Field");
-        addPokemonFieldButton.addActionListener(e -> addPokemonToField());  // ✅ Add Event Listener
+        addPokemonFieldButton.addActionListener(e -> addPokemonToField());  //  Add Event Listener
 
         if (addPokemonBenchButton == null) addPokemonBenchButton = new JButton("To Bench");
         addPokemonBenchButton.addActionListener(e -> addPokemonToBench());
         if (attachEnergyButton == null) {
             attachEnergyButton = new JButton("Energy");
-            attachEnergyButton.addActionListener(e -> attachEnergyToPokemon());  // ✅ Add Event Listener
+            attachEnergyButton.addActionListener(e -> attachEnergyToPokemon());  //  Add Event Listener
         }
 
         if (drawCardButton == null) {
             drawCardButton = new JButton("Draw");
-            drawCardButton.addActionListener(e -> drawCard()); // ✅ Calls drawCard() method
+            drawCardButton.addActionListener(e -> drawCard()); //  Calls drawCard() method
         }
 
         if (endTurnButton == null) {
             endTurnButton = new JButton("End Turn");
-            endTurnButton.addActionListener(e -> endTurn()); // ✅ Attach event listener
+            endTurnButton.addActionListener(e -> endTurn()); //  Attach event listener
         }
 
         JButton[] buttons = {
@@ -397,9 +421,9 @@ public class GameGUI extends JFrame {
         }
 
 
-        layeredPane.add(buttonPanel, Integer.valueOf(2)); // ✅ Buttons on top of the background
+        layeredPane.add(buttonPanel, Integer.valueOf(2)); //  Buttons on top of the background
 
-        // ✅ Battle Ground Panel (Ensure It Exists)
+        //  Battle Ground Panel (Ensure It Exists)
         battlefieldPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -409,7 +433,7 @@ public class GameGUI extends JFrame {
             }
         };
 
-        // ✅ Battlefield Panel (Holds Left & Right Sections)
+        //  Battlefield Panel (Holds Left & Right Sections)
         battlefieldPanel = new JPanel();
         battlefieldPanel.setLayout(new GridBagLayout()); // GridBagLayout for flexible sizing
         battlefieldPanel.setBounds(50, 220, 700, 300);
@@ -429,7 +453,7 @@ public class GameGUI extends JFrame {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-// ✅ Left Panel (Bench Pokémon)
+//  Left Panel (Bench Pokémon)
         benchPanel = new JPanel();
         benchPanel.setBorder(BorderFactory.createTitledBorder("Bench Pokémon"));
         benchPanel.setBackground(new Color(200, 200, 200)); // Light gray
@@ -439,7 +463,7 @@ public class GameGUI extends JFrame {
         gbc.weightx = 0.4; // Half the battlefield width
         battlefieldPanel.add(benchPanel, gbc);
 
-// ✅ Vertical Divider (Creates a line between panels)
+//  Vertical Divider (Creates a line between panels)
         JPanel divider = new JPanel();
         divider.setBackground(Color.BLACK);
         gbc.gridx = 1;
@@ -448,7 +472,7 @@ public class GameGUI extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         battlefieldPanel.add(divider, gbc);
 
-// ✅ Right Panel (Active Pokémon)
+//  Right Panel (Active Pokémon)
         activePokemonPanel = new JPanel();
         activePokemonPanel.setBorder(BorderFactory.createTitledBorder("Active Pokémon"));
         activePokemonPanel.setBackground(new Color(150, 150, 150)); // Darker gray
@@ -459,18 +483,18 @@ public class GameGUI extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         battlefieldPanel.add(activePokemonPanel, gbc);
 
-// ✅ Add Battlefield Panel to the Layered Pane
+//  Add Battlefield Panel to the Layered Pane
         layeredPane.add(battlefieldPanel, Integer.valueOf(2));
 
 
-        // ✅ Bottom Panel with Exit Button
+        //  Bottom Panel with Exit Button
         JPanel bottomPanel = new JPanel();
         bottomPanel.setOpaque(false);
         bottomPanel.setBounds(350, 530, 100, 40);
         bottomPanel.add(exitPlayButton);
         layeredPane.add(bottomPanel, Integer.valueOf(2));
 
-        // ✅ Set the Content Pane Properly
+        //  Set the Content Pane Properly
         setContentPane(layeredPane);
         revalidate();
         repaint();
@@ -484,24 +508,27 @@ public class GameGUI extends JFrame {
         do {
             tempHand = new ArrayList<>();
             hasPokemon = false;
-            playerDeck.shuffle(); // ✅ Shuffle before each attempt
+            playerDeck.shuffle(); //  Shuffle before each attempt
 
             while (tempHand.size() < 7) {
                 Card drawnCard = playerDeck.drawCard();
-                if (drawnCard == null) break; // ✅ Prevents drawing from an empty deck
+                if (drawnCard == null) break; //  Prevents drawing from an empty deck
                 tempHand.add(drawnCard);
                 if (drawnCard instanceof PokemonCard) {
                     hasPokemon = true;
                 }
             }
 
-        } while (!hasPokemon); // ✅ Repeat drawing until there's at least 1 Pokémon
+        } while (!hasPokemon); //  Repeat drawing until there's at least 1 Pokémon
 
-        player.setHand(tempHand); // ✅ Assign the ensured hand to the player
+        player.setHand(tempHand); //  Assign the ensured hand to the player
     }
 
 
-
+    /**
+     * method to update the display of the active Pokémon.
+     * 
+     */
     private void updateActivePokemonDisplay() {
         if (activePokemonPanel == null) return; // Prevent NullPointerException
 
@@ -569,7 +596,10 @@ public class GameGUI extends JFrame {
 
 
 
-
+    /**
+     * method updates the display of the hand and bench Pokémon.
+     * 
+     */
     private void updateHandAndBenchDisplay() {
         if (playerCardsLabel != null && playerBenchLabel != null) {
             playerCardsLabel.setText("Hand: " + getCurrentPlayer().displayHand());
@@ -580,6 +610,10 @@ public class GameGUI extends JFrame {
         updateBenchDisplay(); // Ensure Bench Pokémon panel is updated
     }
 
+    /**
+     * updates the display of the prize card.
+     * @param player The player whose prize card is to be displayed.
+     */
     private void updatePrizeCardDisplay(Player player) {
         if (!player.getPool().isEmpty()) {
             prizeCardLabel.setText("Prize Card: " + player.getPool().get(0).getName());
@@ -587,6 +621,10 @@ public class GameGUI extends JFrame {
             prizeCardLabel.setText("Prize Card: 0");
         }
     }
+    /**
+     * method updates the bench Pokémon.
+     * 
+     */
     private void updateBenchDisplay() {
         if (benchPanel == null) return; // Prevent NullPointerException
 
@@ -598,7 +636,7 @@ public class GameGUI extends JFrame {
         ArrayList<PokemonCard> currentBench = currentPlayer.getBench();
         ArrayList<PokemonCard> opponentBench = opponent.getBench();
 
-        // **Upper part: Current Player's Bench**
+        // Upper part: Current Player's Bench
         JLabel currentPlayerLabel = new JLabel(currentPlayer.getName() + "'s Bench:");
         currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 16));
         currentPlayerLabel.setForeground(Color.WHITE);
@@ -660,18 +698,25 @@ public class GameGUI extends JFrame {
 
 
 
-
+    /**
+     * gets the current player.
+     * @return player turn 
+     */
     private Player getCurrentPlayer() {
         return isPlayer1Turn ? player1 : player2;
     }
 
+    /**
+     * method trainers card used.
+     * 
+     */
     private void useTrainerCard() {
         Player currentPlayer = getCurrentPlayer();
         ArrayList<Card> hand = new ArrayList<>(currentPlayer.getHand());
 
         TrainerCard selectedTrainer = null;
 
-        // ✅ Find a Trainer card in hand
+        //  Find a Trainer card in hand
         for (Card card : hand) {
             if (card instanceof TrainerCard) {
                 selectedTrainer = (TrainerCard) card;
@@ -684,22 +729,25 @@ public class GameGUI extends JFrame {
             return;
         }
 
-        // ✅ Remove Trainer card from hand
+        //  Remove Trainer card from hand
         currentPlayer.getHand().remove(selectedTrainer);
         JOptionPane.showMessageDialog(this, "Used Trainer Card: " + selectedTrainer.getName(), "Trainer Card Used", JOptionPane.INFORMATION_MESSAGE);
 
-        // ✅ Apply Trainer Card Effect
+        //  Apply Trainer Card Effect
         if (selectedTrainer.getName().equals("Rare Candy")) {
             evolvePokemon(currentPlayer);
         } else {
             applyTrainerEffect(selectedTrainer, currentPlayer);
         }
 
-        // ✅ Update UI
+        //  Update UI
         updateHandAndBenchDisplay();
     }
 
-
+    /**
+     * method to evolve the pokemon.
+     * @param player
+     */
     private void evolvePokemon(Player player) {
         PokemonCard activePokemon = player.getActive();
 
@@ -724,20 +772,24 @@ public class GameGUI extends JFrame {
                 break;
         }
 
-        // ✅ Update UI
+        //  Update UI
         updateHandAndBenchDisplay();
         updateActivePokemonDisplay();
     }
 
 
-
+    /**
+     * method to apply the trainer card effect.
+     * @param trainer
+     * @param currentPlayer
+     */
     private void applyTrainerEffect(TrainerCard trainer, Player currentPlayer) {
         PokemonCard activePokemon = currentPlayer.getActive();
 
         switch (trainer.getName()) {
             case "Potion":
                 if (activePokemon != null) {
-                    activePokemon.heal(20); // ✅ Heals the active Pokémon by 20 HP
+                    activePokemon.heal(20); //  Heals the active Pokémon by 20 HP
                     JOptionPane.showMessageDialog(this, activePokemon.getName() + " healed by 20 HP!", "Potion Used", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this, "No Active Pokémon to heal!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -746,7 +798,7 @@ public class GameGUI extends JFrame {
 
             case "Full Heal":
                 if (activePokemon != null) {
-                    activePokemon.setStatusEffect("None"); // ✅ Removes status effects
+                    activePokemon.setStatusEffect("None"); //  Removes status effects
                     activePokemon.heal(currentPlayer.getActive().getHp());
                     JOptionPane.showMessageDialog(this, activePokemon.getName() + " is fully healed from status effects!", "Full Heal Used", JOptionPane.INFORMATION_MESSAGE);
                 } else {
@@ -757,7 +809,7 @@ public class GameGUI extends JFrame {
             case "Professor Oak":
                 Deck currentDeck = isPlayer1Turn ? player1Deck : player2Deck;
                 for (int i = 0; i < 3; i++) {
-                    currentPlayer.drawCard(currentDeck); // ✅ Draws 3 new cards
+                    currentPlayer.drawCard(currentDeck); //  Draws 3 new cards
                     deckCounterLabel.setText("Deck: " + currentDeck.getDeckSize());
                 }
                 JOptionPane.showMessageDialog(this, "Drew 3 cards from the deck!", "Professor Oak Used", JOptionPane.INFORMATION_MESSAGE);
@@ -768,16 +820,19 @@ public class GameGUI extends JFrame {
                 break;
         }
 
-        // ✅ Update UI to reflect changes
+        //  Update UI to reflect changes
         updateHandAndBenchDisplay();
     }
 
 
-
+    /**
+     * method to play the pokemon.
+     * 
+     */
     private void playPokemon() {
         Player currentPlayer = getCurrentPlayer();
 
-        // ✅ Ensure there is NO active Pokémon before setting one
+        //  Ensure there is NO active Pokémon before setting one
         if (currentPlayer.getActive() != null) {
             JOptionPane.showMessageDialog(this,
                     "You already have an active Pokémon! Use 'To Bench' to add more Pokémon.",
@@ -786,17 +841,19 @@ public class GameGUI extends JFrame {
             return;
         }
 
-        // ✅ Send out Pokémon from hand (Only if none is active)
+        // Send out Pokémon from hand (Only if none is active)
         sendOutPokemonFromHand(currentPlayer);
 
-        // ✅ Update UI
+        //  Update UI
         updateHandAndBenchDisplay();
         updateActivePokemonDisplay();
     }
 
 
 
-
+    /**
+     * method to add the pokemon to the bench.
+     */
     private void addPokemonToBench() {
         Player currentPlayer = getCurrentPlayer();
 
@@ -814,26 +871,28 @@ public class GameGUI extends JFrame {
             return;
         }
 
-        // ✅ Ensure the bench isn't full (Limit to 5 Pokémon)
+        //  Ensure the bench isn't full (Limit to 5 Pokémon)
         if (currentPlayer.getBench().size() >= 5) {
             JOptionPane.showMessageDialog(this, "Your bench is full! Cannot add more Pokémon.", "Bench Full", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // ✅ Add to the Bench
+        //  Add to the Bench
         currentPlayer.getBench().add(selectedPokemon);
         JOptionPane.showMessageDialog(this, selectedPokemon.getName() + " added to the bench!");
 
-        // ✅ Remove Pokémon from hand after playing
+        // Remove Pokémon from hand after playing
         currentPlayer.getHand().remove(selectedPokemon);
 
-        // ✅ Update UI
+        //  Update UI
         updateHandAndBenchDisplay();
         updateBenchDisplay();
     }
 
 
-
+    /**
+     * method to switch turn.
+     */
     private void switchTurn() {
         isPlayer1Turn = !isPlayer1Turn; // Toggle turn
         playerTurnLabel.setText("Turn: " + getCurrentPlayer().getName()); //  Update UI
@@ -845,6 +904,9 @@ public class GameGUI extends JFrame {
     }
 
 
+    /**
+     * method to return to the main menu.
+     */
     private void returnToMainMenu() {
         int choice = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to exit play and return to the main menu?",
@@ -859,6 +921,9 @@ public class GameGUI extends JFrame {
         // If NO is chosen, do nothing, and the game continues
     }
 
+    /**
+     * method to attack
+     */
     private void attack() {
         Player currentPlayer = getCurrentPlayer();
         Player opponent = (currentPlayer == player1) ? player2 : player1;
@@ -929,20 +994,20 @@ public class GameGUI extends JFrame {
         if (defender.getHp() <= 0) {
             JOptionPane.showMessageDialog(this, defender.getName() + " has fainted!", "Defeated!", JOptionPane.INFORMATION_MESSAGE);
 
-            // ✅ Award the winner a prize card
+            //  Award the winner a prize card
             currentPlayer.claimPrizeCard();
 
-            // ✅ Update UI for prize pool and deck
+            //  Update UI for prize pool and deck
             updatePrizeCardDisplay(currentPlayer);
-            updateDeckCounterDisplay(); // ✅ Update deck counter after drawing prize card
+            updateDeckCounterDisplay(); // Update deck counter after drawing prize card
 
-            // ✅ Check if the current player has taken all 3 prize cards
+            //  Check if the current player has taken all 3 prize cards
             if (currentPlayer.getPrizeAmount() == 0) {
                 endGame(currentPlayer);
                 return;
             }
 
-            // ✅ Check if opponent has Pokémon in the bench
+            // Check if opponent has Pokémon in the bench
             if (!opponent.getBench().isEmpty()) {
                 opponent.switchToNextPokemon();
                 JOptionPane.showMessageDialog(this,
@@ -950,12 +1015,12 @@ public class GameGUI extends JFrame {
                         "New Active Pokémon",
                         JOptionPane.INFORMATION_MESSAGE);
 
-                // ✅ End turn so opponent can play
+                //  End turn so opponent can play
                 endTurn();
                 return;
             }
 
-            // ✅ If no Pokémon in bench, check hand for any playable Pokémon
+            //  If no Pokémon in bench, check hand for any playable Pokémon
             if (opponent.getHand().stream().anyMatch(card -> card instanceof PokemonCard)) {
                 JOptionPane.showMessageDialog(this,
                         opponent.getName() + " must select a Pokémon from their hand!",
@@ -964,12 +1029,12 @@ public class GameGUI extends JFrame {
 
                 sendOutPokemonFromHand(opponent);
 
-                // ✅ End turn so opponent can play their new Pokémon
+                //  End turn so opponent can play their new Pokémon
                 endTurn();
                 return;
             }
 
-            // ✅ If no Pokémon anywhere, declare the loss
+            //  If no Pokémon anywhere, declare the loss
             JOptionPane.showMessageDialog(this,
                     opponent.getName() + " has no Pokémon left! " + currentPlayer.getName() + " wins!",
                     "Game Over",
@@ -978,18 +1043,21 @@ public class GameGUI extends JFrame {
             return;
         }
 
-        // ✅ Update UI after attack
+        //  Update UI after attack
         updateHandAndBenchDisplay();
         updateActivePokemonDisplay();
         updateBenchDisplay();
 
-        // ✅ End Turn After Attack
+        //  End Turn After Attack
         endTurn();
     }
 
 
 
-
+    /**
+     * method to check prize pool.
+     * @return
+     */
     public boolean checkPrizePool(){
         Player currentPlayer = getCurrentPlayer();
         if (currentPlayer.getPrizeAmount() <= 0){
@@ -998,16 +1066,22 @@ public class GameGUI extends JFrame {
         return false;
     }
 
+    /**
+     * method to pokemon to field
+     * @param winner
+     */
     private void addPokemonToField() {
         String message = getCurrentPlayer().addPokemonToField();
         JOptionPane.showMessageDialog(this, message, "Active Pokémon Update", JOptionPane.INFORMATION_MESSAGE);
 
-        // ✅ Ensure UI updates after changing active Pokémon
+        // Ensure UI updates after changing active Pokémon
         updateHandAndBenchDisplay();
     }
 
 
-
+    /**
+     * method to draw card.
+     */
     private void drawCard() {
         if (hasDrawnCard) {
             JOptionPane.showMessageDialog(this, "You can only draw once per turn!", "Draw Limit Reached", JOptionPane.WARNING_MESSAGE);
@@ -1024,7 +1098,7 @@ public class GameGUI extends JFrame {
             return;
         }
 
-        Card drawnCard = currentDeck.drawCard(); // ✅ Correct deck
+        Card drawnCard = currentDeck.drawCard(); //  Correct deck
         currentPlayer.getHand().add(drawnCard);
 
         JOptionPane.showMessageDialog(this, currentPlayer.getName() + " drew a card: " + drawnCard.getName(), "Card Drawn", JOptionPane.INFORMATION_MESSAGE);
@@ -1034,16 +1108,19 @@ public class GameGUI extends JFrame {
     }
 
 
-
+    /**
+     * method to check for pokemon loss.
+     * @param player
+     */
     private void checkForNoPokemonLoss(Player player) {
         boolean hasPokemon = false;
 
-        // ✅ Check Active Pokémon
+        //  Check Active Pokémon
         if (player.getActive() != null) {
             hasPokemon = true;
         }
 
-        // ✅ Check Hand for Pokémon
+        //  Check Hand for Pokémon
         for (Card card : player.getHand()) {
             if (card instanceof PokemonCard) {
                 hasPokemon = true;
@@ -1051,12 +1128,12 @@ public class GameGUI extends JFrame {
             }
         }
 
-        // ✅ Check Bench for Pokémon
+        //  Check Bench for Pokémon
         if (!player.getBench().isEmpty()) {
             hasPokemon = true;
         }
 
-        // ✅ If no Pokémon available anywhere, player loses
+        //  If no Pokémon available anywhere, player loses
         if (!hasPokemon) {
             Player opponent = (player == player1) ? player2 : player1;
             JOptionPane.showMessageDialog(this,
@@ -1068,14 +1145,17 @@ public class GameGUI extends JFrame {
     }
 
 
-
+    /**
+     * method to attach energy to pokemon.
+     * 
+     */
     private void attachEnergyToPokemon() {
         Player currentPlayer = getCurrentPlayer();
         ArrayList<Card> hand = new ArrayList<>(currentPlayer.getHand());
 
         EnergyCard selectedEnergy = null;
 
-        // ✅ Find an Energy card in hand
+        //  Find an Energy card in hand
         for (Card card : hand) {
             if (card instanceof EnergyCard) {
                 selectedEnergy = (EnergyCard) card;
@@ -1091,12 +1171,12 @@ public class GameGUI extends JFrame {
         PokemonCard activePokemon = currentPlayer.getActive();
 
         if (activePokemon != null) {
-            activePokemon.addEnergy(selectedEnergy);  // ✅ Attach Energy to Active Pokémon
+            activePokemon.addEnergy(selectedEnergy);  //  Attach Energy to Active Pokémon
             JOptionPane.showMessageDialog(this, "Attached " + selectedEnergy.getName() + " to " + activePokemon.getName() + "!\n"
                             + activePokemon.getName() + " now has " + activePokemon.getEnergy() + " Energy.",
                     "Energy Attached", JOptionPane.INFORMATION_MESSAGE);
         } else if (!currentPlayer.getBench().isEmpty()) {
-            // ✅ Attach to Bench Pokémon if Active is empty
+            //  Attach to Bench Pokémon if Active is empty
             PokemonCard benchPokemon = currentPlayer.getBench().get(0);
             benchPokemon.addEnergy(selectedEnergy);
             JOptionPane.showMessageDialog(this, "Attached " + selectedEnergy.getName() + " to " + benchPokemon.getName() + "!",
@@ -1106,14 +1186,18 @@ public class GameGUI extends JFrame {
             return;
         }
 
-        // ✅ Remove Energy card from hand after attaching
+        //  Remove Energy card from hand after attaching
         currentPlayer.getHand().remove(selectedEnergy);
 
-        // ✅ Update UI (Including Active Pokémon Energy)
+        //  Update UI (Including Active Pokémon Energy)
         updateHandAndBenchDisplay();
-        updateActivePokemonDisplay();  // ✅ Ensure Energy is updated
+        updateActivePokemonDisplay();  //  Ensure Energy is updated
     }
 
+    /**
+     * method to play pokemon from hand.
+     * @param player
+     */
     private void playPokemonFromHand(Player player) {
         ArrayList<PokemonCard> handPokemon = new ArrayList<>();
         for (Card card : player.getHand()) {
@@ -1122,9 +1206,9 @@ public class GameGUI extends JFrame {
             }
         }
 
-        if (handPokemon.isEmpty()) return; // ✅ No Pokémon in hand
+        if (handPokemon.isEmpty()) return; //  No Pokémon in hand
 
-        // ✅ Ask the player which Pokémon to play
+        //  Ask the player which Pokémon to play
         String[] options = handPokemon.stream().map(PokemonCard::getName).toArray(String[]::new);
         String chosenPokemon = (String) JOptionPane.showInputDialog(this,
                 "Choose a Pokémon to send out!",
@@ -1149,13 +1233,17 @@ public class GameGUI extends JFrame {
         }
     }
 
+    /**
+     * method to send out pokemon from hand.
+     * @param player
+     */
     private void sendOutPokemonFromHand(Player player) {
-        // ✅ If player already has an active Pokémon, do nothing
+        //  If player already has an active Pokémon, do nothing
         if (player.getActive() != null) {
             return;
         }
 
-        // ✅ Filter Pokémon from hand
+        //  Filter Pokémon from hand
         ArrayList<PokemonCard> handPokemon = new ArrayList<>();
         for (Card card : player.getHand()) {
             if (card instanceof PokemonCard) {
@@ -1163,7 +1251,7 @@ public class GameGUI extends JFrame {
             }
         }
 
-        // ✅ If there are no Pokémon in hand, return (No action needed)
+        //  If there are no Pokémon in hand, return (No action needed)
         if (handPokemon.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     player.getName() + " has no Pokémon in hand to send out!",
@@ -1172,7 +1260,7 @@ public class GameGUI extends JFrame {
             return;
         }
 
-        // ✅ Ask the player which Pokémon to send out
+        //  Ask the player which Pokémon to send out
         String[] options = handPokemon.stream().map(PokemonCard::getName).toArray(String[]::new);
         String chosenPokemon = (String) JOptionPane.showInputDialog(this,
                 player.getName() + ", choose a Pokémon to send out!",
@@ -1182,7 +1270,7 @@ public class GameGUI extends JFrame {
                 options,
                 options[0]);
 
-        // ✅ If a Pokémon was chosen, assign it as the active Pokémon
+        //  If a Pokémon was chosen, assign it as the active Pokémon
         if (chosenPokemon != null) {
             for (PokemonCard pokemon : handPokemon) {
                 if (pokemon.getName().equals(chosenPokemon)) {
@@ -1194,7 +1282,7 @@ public class GameGUI extends JFrame {
                             "New Active Pokémon",
                             JOptionPane.INFORMATION_MESSAGE);
 
-                    // ✅ Refresh UI to reflect changes
+                    //  Refresh UI to reflect changes
                     updateHandAndBenchDisplay();
                     updateActivePokemonDisplay();
                     return;
@@ -1206,9 +1294,11 @@ public class GameGUI extends JFrame {
 
 
 
-
+    /**
+     * method to end turn.
+     */
     private void endTurn() {
-        // ✅ Toggle the turn
+        //  Toggle the turn
         this.hasDrawnCard = false;
         isPlayer1Turn = !isPlayer1Turn;
         Player currentPlayer = getCurrentPlayer();
@@ -1216,31 +1306,31 @@ public class GameGUI extends JFrame {
         Deck currentDeck = isPlayer1Turn ? player1Deck : player2Deck;
         deckCounterLabel.setText("Deck: " + currentDeck.getDeckSize());
 
-        // ✅ Update UI to show whose turn it is (officially switched)
+        //  Update UI to show whose turn it is (officially switched)
         playerTurnLabel.setText("Turn: " + currentPlayer.getName());
 
-        // ✅ Apply any status effects (like Sleep, Burn) before the next turn starts
+        //  Apply any status effects (like Sleep, Burn) before the next turn starts
         if (currentPlayer.getActive() != null) {
             currentPlayer.getActive().applyStatusEffect();
         }
 
-        // ✅ Refresh UI Components
+        //  Refresh UI Components
         updateHandAndBenchDisplay();
         updateActivePokemonDisplay();
         updateBenchDisplay();
 
-        // ✅ Notify Players that turn has switched
+        //  Notify Players that turn has switched
         JOptionPane.showMessageDialog(this,
                 "Turn ended! It's now " + currentPlayer.getName() + "'s turn.",
                 "Turn Switched",
                 JOptionPane.INFORMATION_MESSAGE);
 
-        // ✅ After switching turn, check if the opponent has an active Pokémon
+        //  After switching turn, check if the opponent has an active Pokémon
         boolean opponentHasActive = (opponent.getActive() != null);
         boolean opponentHasBench = !opponent.getBench().isEmpty();
         boolean opponentHasHand = opponent.getHand().stream().anyMatch(card -> card instanceof PokemonCard);
 
-        // ✅ Prevent forcing Pokémon onto the opponent if they haven't chosen to play
+        //  Prevent forcing Pokémon onto the opponent if they haven't chosen to play
         if (!opponentHasActive) {
             if (opponentHasBench) {
                 int choice = JOptionPane.showConfirmDialog(this,
@@ -1268,13 +1358,13 @@ public class GameGUI extends JFrame {
             }
         }
 
-        // ✅ If the opponent chooses NOT to play a Pokémon and has no Pokémon left, they lose
+        //  If the opponent chooses NOT to play a Pokémon and has no Pokémon left, they lose
         if (!opponentHasActive && !opponentHasBench && !opponentHasHand) {
             JOptionPane.showMessageDialog(this,
                     opponent.getName() + " has no Pokémon left! " + currentPlayer.getName() + " wins!",
                     "Game Over",
                     JOptionPane.INFORMATION_MESSAGE);
-            endGame(currentPlayer);  // ✅ Current player wins
+            endGame(currentPlayer);  //  Current player wins
         }
     }
 
@@ -1283,6 +1373,10 @@ public class GameGUI extends JFrame {
 
 
 
+    /**
+     * method to end the game.
+     * @param winner
+     */
     private void endGame(Player winner) {
         JOptionPane.showMessageDialog(this,
                 "🎉 Congratulations " + winner.getName() + "! You won the game! 🎉",
@@ -1294,10 +1388,10 @@ public class GameGUI extends JFrame {
         MusicPlayer.stopMusic();
 
 
-        // ✅ Close the game window
+        //  Close the game window
         dispose();
 
-        // ✅ Redirect to the main menu
+        //  Redirect to the main menu
         new MenuGUI();
     }
 
